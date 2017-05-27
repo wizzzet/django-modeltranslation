@@ -292,7 +292,7 @@ class TranslationAdmin(TranslationBaseModelAdmin, admin.ModelAdmin):
 
             temp_fieldsets = {}
             for orig_field, trans_fields in self.trans_opts.fields.items():
-                trans_fieldnames = [f.name for f in sorted(trans_fields, key=lambda x: x.name)]
+                trans_fieldnames = [f.name for f in trans_fields]
                 if any(f in trans_fieldnames for f in flattened_fieldsets):
                     # Extract the original field's verbose_name for use as this
                     # fieldset's label - using ugettext_lazy in your model
