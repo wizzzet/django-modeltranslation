@@ -2,6 +2,7 @@
 from copy import deepcopy
 
 import django
+from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin.options import BaseModelAdmin, flatten_fieldsets, InlineModelAdmin
 from django import forms
@@ -292,6 +293,10 @@ class TranslationAdmin(TranslationBaseModelAdmin, admin.ModelAdmin):
 
             temp_fieldsets = {}
             for orig_field, trans_fields in self.trans_opts.fields.items():
+                trans_fields = []
+                # sort trnaslation fields by their sorting in settings.py
+                for language in settings.LANGUAGES:
+                    trans_fields.extend(filter(lambda x: x.language == language[0], trans_fields))
                 trans_fieldnames = [f.name for f in trans_fields]
                 if any(f in trans_fieldnames for f in flattened_fieldsets):
                     # Extract the original field's verbose_name for use as this
